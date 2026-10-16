@@ -1,0 +1,432 @@
+{
+    "Naabu" : {
+        "Performance":{
+            "Soft": "-c 5 -rate 10 -timeout 1000",
+            "Normal": "-c 5 -rate 20 -timeout 1000",
+            "Aggressive": "-c 8 -rate 30 -timeout 1000"
+        },
+        "MAN":{
+            "About" : "Naabu is a high-speed, lightweight cybersecurity tool used to scan networks and identify open ports",
+            "Meta-Data":{
+                "Port Options" : {
+                    "-port or -p" : "Ports to scan (single port or range)",
+                    "-top-ports or -tp" : "Number of top ports to scan",
+                    "-exclude-ports or -ep" : "Ports to exclude from scan , seperated",
+                    "-ports-file or -pf" : "Ports to scan from a file",
+                    "-exclude-cdn or -ec" : "skip full port scans for CDN's"
+                },
+                "Configuration Options" : {
+                    "-scan-all-ips or -sa" : "scan all the IP's associated with DNS record",
+                    "-scan-type or -s" : "type of port scan (SYN/CONNECT)",
+                    "-source-ip" : "source ip (It is used to manually specify a ip and port for outgoing scan)",
+                    "-interface or -i" : "network Interface to use for port scan",
+                    "-nmap-cli" : "nmap command to run on found results (example: -nmap-cli 'nmap -sV')",
+                    "-r" : "list of custom resolver dns resolution , separated",
+                    "proxy" : "socks5 proxy",
+                    "resume" : "resume scan using resume.cfg",
+                    "-stream" : "stream mode (disables resume, nmap, verify, retries, shuffling, etc)"
+                },
+                "Miscellaneous":{
+                    "-debug" : "display debugging information",
+                    "-verbose or -v" : "display verbose output",
+                    "-silent" : "display only results in output",
+                    "-stats" : "display stats of the running scan",
+                    "-si or -stats-interval" : "int number of seconds to wait between showing a statistics update (default 5)"
+                }
+            }
+        }
+    },
+    "SubFinder":{
+        "MAN":{
+            "About" : "Subfinder is a passive subdomain discovery tool,Subfinder can be used to obtain a number of valid subdomains both passively and actively, to identify more attack surface",
+            "Meta-Data" : {
+                "INPUT" : {
+                    "-d or -domain [string]" : "Specific target domains to find subdomains for",
+                    "-dL or -list [string]" : "string: Path to a text file containing a list of target domains for batch discovery"
+                },
+                "SOURCE" : {
+                    "-s or -source [string]" : "Specific passive sources/services to use for enumeration (e.g., -s crtsh,github).",
+                    "-recursive" : "Natively use only passive sources that support recursive subdomain discovery",
+                    "-all" : "Query every available passive source for enumeration (maximizes coverage but is slower)",
+                    "-es or -exclude-sources [string]" : "string[]: Specific passive sources to completely omit from the search"
+                },
+                "FILTER" : {
+                    "-m or -match [string]" : "Subdomain string or path to a file with subdomains to explicitly match",
+                    "-f or -filter [string]" : "Subdomain string or path to a file with subdomains to filter out",
+                    "-match-regex [string]" : "A regex expression or path to a file containing regex to match on output subdomains",
+                    "-filter-regex [string]" : "string[]: A regex expression or path to a file containing regex to filter out from output subdomains"
+                },
+                "RATE LIMIT" : {
+                    "-rl or -rate-limit [int]" : "Maximum number of global HTTP requests allowed to send per second",
+                    "-rls or -rate-limits [value]" : "Custom per-provider rate limits (e.g., separating limits for different APIs)",
+                    "-t [int]" : "Number of concurrent goroutines used specifically for resolving subdomains (defaults to 10, works with -active only)"
+                },
+                "CONFIGURATION" : {
+                    "-config [string]" : "string: Path to a custom Subfinder flag configuration file (defaults to $HOME/.config/subfinder/config.yaml)",
+                    "-pc or -provider-config [string]" : "Path to the API provider settings configuration file (defaults to $HOME/.config/subfinder/provider-config.yaml)",
+                    "-r [string]" : "Comma-separated list of custom DNS resolvers to use.",
+                    "-rL or -rlist [string]" : "Path to a file containing a list of custom DNS resolvers",
+                    "-nW or -active" : " Forces the tool to validate and display active/live subdomains only",
+                    "-proxy [string]" : "The HTTP proxy string to tunnel Subfinder's traffic through.",
+                    "-ei or -exclude-ip" : ": Excludes resolved IP addresses from the final domains list output" 
+                },
+                "DEBUG" : {
+                    "-silent" : "Supresses all banners and operational metadata, displaying only found subdomains in the stdout",
+                    "-version" : "Displays the active version details of Subfinder.",
+                    "-v" : "Enables verbose output to log real-time scanning errors, warnings, and current operations"
+                },
+                "UPDATE" : {
+                    "-up or -update" : "Automatically updates the Subfinder engine binary to the latest release version available",
+                    "-duc or -disable-update-check" : "Prevents Subfinder from checking for new version releases automatically on launch"
+                }
+            }
+        }
+    },
+    "Amass" : {
+        "MAN" : {
+        "About": "Amass is a network mapping and attack surface discovery tool used for discovering domains, subdomains, IP addresses, and related infrastructure.",
+      "Meta-Data": {
+        "Target Input & Scoping": {
+          "-d": "Target root domain name. Can be specified multiple times for bulk operations.",
+          "-df": "Path to a text file containing a list of target root domains.",
+          "-asn": "Limits or targets discovery to specific Autonomous System Numbers.",
+          "-cidr": "Limits or targets discovery to specific CIDR IP blocks.",
+          "-addr": "Comma-separated list of exact IP addresses or ranges to parse (intel only).",
+          "-p": "Comma-separated ports used for validation (default: 443).",
+          "-bl": "Specific subdomain names to exclude from processing.",
+          "-blf": "Path to a file containing line-separated blacklisted subdomains.",
+          "-nf": "Path to a file containing known subdomain names harvested from other tools."
+        },
+        "Reconnaissance & Mode Modifiers": {
+          "-passive": "Prevents active validation and relies strictly on OSINT data feeds.",
+          "-active": "Touches target infrastructure directly through active DNS validation, zone transfers, or target SSL/TLS certificates.",
+          "-whois": "Forces WHOIS lookup correlation to uncover associated asset domains managed by the same entities (intel only)."
+        },
+        "Brute-Forcing & Name Alterations": {
+          "-brute": "Enables wordlist-based DNS subdomain brute-forcing.",
+          "-w": "Custom path to an external subdomain wordlist file.",
+          "-norecursive": "Stops further recursive brute-forcing workflows on discovered sub-elements.",
+          "-min-for-recursive": "Minimum number of confirmed subdomain levels before deeper recursion triggers (default: 1).",
+          "-noalts": "Disables generation of mutated or altered word variations of discovered names.",
+          "-aw": "Custom dictionary path used to generate name mutations and alterations.",
+          "-wm": "Custom formatting mask rules for name mutations."
+        },
+        "Integrations & Data Source Filters": {
+          "-list": "Lists all available passive data sources and APIs compiled into the engine.",
+          "-include": "Comma-separated strict inclusion list of data source providers.",
+          "-if": "Path to a file identifying data sources to strictly include.",
+          "-exclude": "Comma-separated list of data sources to disregard.",
+          "-ef": "Path to a file defining data sources to exclude from execution profiles."
+        },
+        "Display & Data Export Formats": {
+          "-o": "Path to an output text file where discovered domains are recorded.",
+          "-oA": "Prefix used to generate output files in all supported operational formats simultaneously (.txt, .json, .graph).",
+          "-json": "Exports findings as structured JSON lines to the designated file path.",
+          "-src": "Includes the origin source service in each output entry.",
+          "-ip": "Appends verified IPv4 and IPv6 addresses to findings.",
+          "-ipv4": "Restricts IP logging output to IPv4 addresses.",
+          "-ipv6": "Restricts IP logging output to IPv6 addresses."
+        },
+        "Concurrency, Networking & Timing": {
+          "-config": "Path to the configuration file containing API access credentials and settings.",
+          "-dir": "Directory where local persistent graph databases are generated or evaluated.",
+          "-dns-qps": "Maximum outbound DNS queries per second.",
+          "-max-dns-queries": "Legacy option for limiting parallel network lookups; described in the supplied notes as deprecated.",
+          "-r": "Comma-separated custom DNS resolver IP addresses.",
+          "-rf": "Path to a file containing custom DNS resolvers.",
+          "-tr": "IP addresses of trusted resolvers used to identify wildcard DNS behavior.",
+          "-trf": "Path to a file containing trusted resolver configurations.",
+          "-rqps": "Peak query-per-second limit allocated to untrusted infrastructure.",
+          "-trqps": "Query-per-second limit allocated to trusted infrastructure.",
+          "-timeout": "Maximum total execution time in minutes before the scan ends.",
+          "-noresolvrate": "Disables real-time monitoring of resolver performance constraints.",
+          "-noresolvscore": "Disables logic used to score and rank resolver reliability."
+        }
+      }
+    
+        }
+    },
+    "DNSX" : {
+        "MAN" : {
+            "About": "dnsx is a fast and multi-purpose DNS toolkit used to resolve hosts and query DNS records.",
+      "Meta-Data": {
+        "Input": {
+          "-l or -list": "List of subdomains or hosts to resolve (file path, comma-separated values, or stdin).",
+          "-d or -domain": "List of target domains to brute-force (file path, comma-separated values, or stdin).",
+          "-w or -wordlist": "List of words to use for brute-forcing subdomains."
+        },
+        "Query": {
+          "-a": "Query A records.",
+          "-aaaa": "Query AAAA records.",
+          "-cname": "Query CNAME records.",
+          "-ns": "Query NS records.",
+          "-txt": "Query TXT records.",
+          "-srv": "Query SRV records.",
+          "-ptr": "Query PTR records.",
+          "-mx": "Query MX records.",
+          "-soa": "Query SOA records.",
+          "-any": "Query ANY records.",
+          "-axfr": "Attempt DNS zone transfers.",
+          "-caa": "Query CAA records.",
+          "-all or -recon": "Query all record types sequentially.",
+          "-e or -exclude-type": "Exclude specified DNS record types from queries."
+        },
+        "Filter": {
+          "-re or -resp": "Display raw DNS responses.",
+          "-ro or -resp-only": "Display only response values.",
+          "-rc or -rcode": "Filter results by DNS response codes."
+        },
+        "Probe": {
+          "-cdn": "Detect CDN infrastructure.",
+          "-asn": "Retrieve Autonomous System Number information."
+        },
+        "Rate-Limit": {
+          "-t": "Control the number of concurrent threads.",
+          "-rl": "Set the maximum number of requests per second."
+        },
+        "Output": {
+          "-o or -output": "Save results to an output file.",
+          "-j or -json": "Export results in JSONL format.",
+          "-ot": "Format output using templates.",
+          "-omit-raw": "Omit raw DNS response data from output."
+        },
+        "Configuration & Optimization": {
+          "-r": "Specify custom DNS resolvers.",
+          "-wt": "Configure wildcard-related handling.",
+          "-wd": "Specify a domain for wildcard handling.",
+          "-auto-wildcard": "Enable automatic wildcard detection and handling.",
+          "-retry": "Configure retry attempts.",
+          "-timeout": "Configure DNS query timeout.",
+          "-hf": "Specify a host file.",
+          "-trace": "Enable DNS tracing.",
+          "-resume": "Resume a previous job.",
+          "-stream": "Enable streaming mode."
+        },
+        "Update": {
+          "-up or -update": "Update the dnsx binary.",
+          "-duc or -disable-update-check": "Disable startup update checks."
+        },
+        "Debug": {
+          "-silent": "Display only results.",
+          "-version": "Display the dnsx version.",
+          "-v or -verbose": "Display verbose output.",
+          "-nc or -no-color": "Disable colored output."
+        }
+      }
+        }
+    },
+    "httpx": {
+  "MAN": {
+    "About": "A fast and multi-purpose HTTP toolkit that allows running multiple probes using the retryablehttp library.",
+    "Meta-Data": {
+      "INPUT": {
+        "-l, -list": "Input file containing list of hosts to process",
+        "-request": "File containing raw HTTP request",
+        "-u, -target": "Target input URL/host to probe"
+      },
+      "PROBES": {
+        "-status-code": "Display HTTP status code",
+        "-content-length": "Display response content length",
+        "-content-type": "Display response content type",
+        "-line-count": "Display response body line count",
+        "-word-count": "Display response body word count",
+        "-location": "Display redirect response location",
+        "-title": "Display page title",
+        "-web-server": "Display server header value",
+        "-tech-detect": "Display technology in use based on wappalyzer",
+        "-method": "Display HTTP request method value",
+        "-websocket": "Display if websocket connection is supported",
+        "-ip": "Display target host IP address",
+        "-cname": "Display target host CNAME record",
+        "-asn": "Display target host ASN information",
+        "-cdn": "Display target host CDN in use",
+        "-probe": "Display status code for successful probes"
+      },
+      "CONFIGURATIONS": {
+        "-r, -resolvers": "List of custom DNS resolvers to use",
+        "-allow": "Allow request for specific IP/CIDR",
+        "-deny": "Deny request for specific IP/CIDR",
+        "-sni-name": "Custom TLS SNI hostname to use",
+        "-random-agent": "Use a randomly selected User-Agent header",
+        "-H, -header": "Custom HTTP header to include in request",
+        "-http-proxy": "HTTP proxy to tunnel traffic through",
+        "-unsafe": "Send raw HTTP request skipping validation",
+        "-resume": "Resume scan using resume file",
+        "-fr, -follow-redirects": "Follow HTTP redirects",
+        "-max-redirects": "Maximum number of redirects to follow",
+        "-respect-hsts": "Respect HSTS response headers",
+        "-max-resp-size": "Maximum response size to read in bytes"
+      },
+      "MATCHERS": {
+        "-mc, -match-code": "Match responses with specific status codes",
+        "-ml, -match-length": "Match responses with specific content lengths",
+        "-mlc, -match-line-count": "Match responses with specific line counts",
+        "-mwc, -match-word-count": "Match responses with specific word counts",
+        "-mstring, -match-string": "Match responses containing specific string",
+        "-mregex, -match-regex": "Match responses matching specific regex",
+        "-mcdn, -match-cdn": "Match responses from specific CDN providers"
+      },
+      "FILTERS": {
+        "-fc, -filter-code": "Filter out responses with specific status codes",
+        "-fl, -filter-length": "Filter out responses with specific content lengths",
+        "-flc, -filter-line-count": "Filter out responses with specific line counts",
+        "-fwc, -filter-word-count": "Filter out responses with specific word counts",
+        "-fstring, -filter-string": "Filter out responses containing specific string",
+        "-fregex, -filter-regex": "Filter out responses matching specific regex",
+        "-fcdn, -filter-cdn": "Filter out responses from specific CDN providers"
+      },
+      "RATE-LIMIT": {
+        "-t, -threads": "Number of concurrent threads to use",
+        "-rl, -rate-limit": "Maximum number of requests to send per second",
+        "-rlm, -rate-limit-minute": "Maximum number of requests to send per minute"
+      },
+      "OUTPUT": {
+        "-o, -output": "File to write output results",
+        "-sr, -store-response": "Store raw HTTP responses in directory",
+        "-srd, -store-response-dir": "Custom directory to store responses",
+        "-csv": "Export output in CSV format",
+        "-json": "Export output in JSON Lines format",
+        "-irr, -include-response": "Include request/response in JSON output",
+        "-include-chain": "Include redirect chain in JSON output"
+      },
+      "OPTIMIZATION": {
+        "-timeout": "Timeout in seconds for network connections",
+        "-retry": "Number of times to retry a failed request",
+        "-leave-default-ports": "Retain default ports in output URLs"
+      },
+      "UPDATE": {
+        "-up, -update": "Update httpx binary to the latest version",
+        "-duc, -disable-update-check": "Disable automatic update check on execution"
+      },
+      "DEBUG": {
+        "-silent": "Display only target results in output",
+        "-v, -verbose": "Display verbose logging information",
+        "-version": "Display current version of httpx",
+        "-nc, -no-color": "Disable colored terminal output",
+        "-debug": "Display full request and response debugging details"
+      }
+    }
+  }
+},
+
+  "gobuster": {
+    "MAN": {
+      "About": "A high-performance directory/file, DNS, virtual host, and cloud bucket brute-forcing tool written in Go.",
+      "Meta-Data": {
+        "GLOBAL OPTIONS": {
+          "-w, --wordlist": "Path to the wordlist file used for brute-forcing",
+          "-t, --threads": "Number of concurrent threads to deploy (default: 10)",
+          "--delay": "Time interval each thread waits between requests",
+          "-o, --output": "Output file path to save discoveries (defaults to stdout)",
+          "-q, --quiet": "Silence the banner graphic and all non-essential notification noise",
+          "-v, --verbose": "Enable explicit logging outputs including connection errors",
+          "--help, -h": "Display contextual help layout guides for subcommands or core configuration",
+          "--version": "Print engine version number details"
+        },
+        "DIR MODE OPTIONS": {
+          "-u, --url": "Target web application base URL layout structure to bust",
+          "-x, --extensions": "File extensions to explicitly append to the wordlist parameters",
+          "-s, --statuscodes": "Comma-separated whitelist of positive status codes to match",
+          "-b, --blackstatuscodes": "Comma-separated blacklist of disruptive status codes to filter out",
+          "-r, --followredirect": "Instruct the processing logic to follow standard HTTP redirects",
+          "-k, --insecure": "Skip TLS certificate structure verification processes",
+          "-e, --expanded": "Print absolute long-form URLs instead of relative paths",
+          "-c, --cookies": "Custom cookies string data to send with outward web requests",
+          "-H, --headers": "Custom HTTP header blocks to inject into target traffic loads",
+          "-a, --useragent": "Override default HTTP User-Agent data strings",
+          "--random-agent": "Rotate and utilize random web client identifier signatures",
+          "-m, --method": "Specify alternative HTTP structural query method (e.g., POST, GET)",
+          "--timeout": "Maximum duration window allocation before network request exhaustion",
+          "-U, --username": "Username credentials required for Basic HTTP Access Authentication challenges",
+          "-P, --password": "Password credentials paired alongside the target Basic Auth profile username",
+          "--exclude-length": "Filter out responses sharing specific structural byte content sizes"
+        },
+        "DNS MODE OPTIONS": {
+          "-d, --domain": "Target apex structural base domain used for subdomain mapping actions",
+          "-r, --resolver": "Custom target structural upstream DNS server to issue requests to",
+          "-c, --show-cname": "Expose explicit underlying CNAME text pointer mappings",
+          "-i, --show-ips": "Expose explicitly resolved IPv4 or IPv6 records",
+          "--wildcard": "Force continuous query loops even after wildcard catches are found",
+          "--timeout": "Outbound DNS connection lifespan threshold limits before validation collapse"
+        },
+        "VHOST MODE OPTIONS": {
+          "-u, --url": "Target web infrastructure base IP layout map to point queries at",
+          "--append-domain": "Append base target tracking apex domain elements directly onto elements parsed"
+        },
+        "CLOUD MODE OPTIONS (S3/GCS)": {
+          "-m, --maximpl": "Maximum bucket instances validation concurrency rate structures",
+          "--provider": "Direct service deployment engine tracking label target definition"
+        }
+      }
+    }
+  },
+  "katana": {
+    "MAN": {
+      "About": "A next-generation crawling and spidering framework designed to extract endpoints and metadata from web applications.",
+      "Meta-Data": {
+        "INPUT": {
+          "-u, -list": "Target URL or path to a file containing a list of target URLs to crawl",
+          "-resume": "Resume crawl session using a specified resume file"
+        },
+        "CONFIGURATION": {
+          "-d, -depth": "Maximum depth to follow links during crawling (default 3)",
+          "-jc, -js-crawl": "Enable JavaScript crawling and parsing mechanisms",
+          "-jsl, -jsluice": "Enable jsluice parsing for deeper JavaScript endpoint extraction",
+          "-hr, -headless": "Enable headless browser-based crawling execution",
+          "-f, -form-parsing": "Enable automated form parsing and extraction",
+          "-r, -resolvers": "List of custom DNS resolvers to use during operations",
+          "-proxy": "HTTP/SOCKS5 proxy URL to tunnel crawling traffic through",
+          "-H, -header": "Custom header or path to file containing custom headers to include in requests",
+          "-b, -cookie": "Custom cookies or path to file containing cookies to include in requests",
+          "-ra, -random-agent": "Use a randomly selected User-Agent header (default true)",
+          "-inc, -include-mime": "Comma-separated list of MIME types to explicitly include in crawl",
+          "-exc, -exclude-mime": "Comma-separated list of MIME types to explicitly exclude from crawl"
+        },
+        "SCOPE": {
+          "-cs, -crawl-scope": "In-scope URL regex or file containing regex patterns for crawling",
+          "-cos, -crawl-out-scope": "Out-of-scope URL regex or file containing regex patterns to exclude",
+          "-field, -field-scope": "Limit crawling scope to specific levels (e.g., 'rd' for root domain, 'fqdn' for subdomains)"
+        },
+        "FILTER": {
+          "-mr, -match-regex": "Match and display responses matching a specific regex pattern",
+          "-fr, -filter-regex": "Filter out and drop responses matching a specific regex pattern",
+          "-e, -extension": "Comma-separated list of file extensions to target or filter"
+        },
+        "RATE-LIMIT": {
+          "-c, -concurrency": "Number of concurrent concurrent targets to crawl (default 10)",
+          "-p, -parallelism": "Number of parallel requests to process per target (default 10)",
+          "-rd, -rate-limit": "Maximum number of HTTP requests to send per second",
+          "-rdm, -rate-limit-minute": "Maximum number of HTTP requests to send per minute"
+        },
+        "OUTPUT": {
+          "-o, -output": "File path to write crawling results into",
+          "-sr, -store-response": "Store raw HTTP requests and responses in a dedicated directory",
+          "-srd, -store-response-dir": "Custom directory path to save stored raw responses",
+          "-j, -jsonl": "Export output in structured JSON Lines format",
+          "-no-fields": "Exclude extra metadata fields from standard text output"
+        },
+        "OPTIMIZATION": {
+          "-timeout": "Timeout duration in seconds for network connections (default 10)",
+          "-retry": "Number of times to retry a failed HTTP request (default 1)",
+          "-sm, -strategy": "Crawling approach strategy to apply (depth-first or breadth-first)"
+        },
+        "UPDATE": {
+          "-up, -update": "Update katana engine binary to the latest release version available",
+          "-duc, -disable-update-check": "Disable automatic update check on application startup"
+        },
+        "DEBUG": {
+          "-silent": "Display only targeted output endpoints, silencing telemetry and banners",
+          "-v, -verbose": "Enable verbose logging to track crawling progress and errors",
+          "-version": "Display the active version details of Katana",
+          "-nc, -no-color": "Disable ANSI color coding formatting inside terminal logs"
+        }
+      }
+    }
+  }
+}
+
+
+
+
+
+
