@@ -1,6 +1,6 @@
-# This file only contains code for redis (more methods will be added)
 
 import redis,json
+from FalconEye_Methods import FileandLogManager as FLM
 
 Queues = [
     "UI->BACKEND",
@@ -17,19 +17,25 @@ class Pipleine_Manager():
     def flush_queues(self):
         for item in Queues:
             self.redis_client.delete(item)
-        return "Queues has been flushed" # These return statements are temporary i will add a logger object that sends data to the frontend to display these messages
+        FLM.addLogUI("Queues has been flushed")
+        FLM.addLogF("Queues has been flushed")
     
-    def Set_State(self,gvien_state):
+    def Set_State(self,given_state):
         self.redis_client.set("State",f"{given_state}")
-        return "state has been set" # Same for these
+        FLM.addLogUI("state has been set")
+        FLM.addLogF("State has been set")
 
     def Set_Tool_Object(self,Tool_Name,object):
         self.redis_client.set(f"{Tool_Name}",json.dumps(object))
-        return f"{Tool_Name} object stored."
+        FLM.addLogUI(f"{Tool_Name} object stored.")
+        FLM.addLogF(f"{Tool_Name} object stored")
     
     def Get_Tool_Object(self,Tool_Name):
         return self.redis_client.get(f"{Tool_Name}")
-    
+
+    def Send_Log_To_UI(self,message):
+        self.redis_client.lpush("Logger->UI",message)
+        return True
     
     def Verfiy_Connection(self):
         return self.redis_client.ping()
