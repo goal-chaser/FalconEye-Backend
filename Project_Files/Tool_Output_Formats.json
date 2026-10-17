@@ -1,0 +1,32 @@
+{
+    "Tool": {
+        "Name" : "",
+        "Verified" : "",
+        "Command" : "",
+        "Set_By" : "",
+        "NumberOfActiveInstances" : null,
+        "Instance_Type" : null
+    },
+
+    "Runtime_Templates" : [
+        {
+            "Name" : "TTM",
+            "Subdomain" : "",
+            "Url" : "",
+            "Picture_Path" : "",
+            "Meta-Data" : {
+                "Status_Code" : null,
+                "Ip" : null,
+                "Certificate_Data" : ""
+            },
+            "Data" : {
+                "Dns_Records" : "",
+                "Technology" : "",
+                "Headers" : ""
+            },
+            "Additional":{
+                "Data" : ""
+            }
+        }
+    ]
+}
