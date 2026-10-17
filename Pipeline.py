@@ -1,10 +1,11 @@
 # This file only contains code for redis (more methods will be added)
 
-import redis
+import redis,json
 
 Queues = [
     "UI->BACKEND",
-    "BACKEND->UI"
+    "BACKEND->UI",
+    "Logger->UI"
 ]
 
 class Pipleine_Manager():
@@ -22,11 +23,14 @@ class Pipleine_Manager():
         self.redis_client.set("State",f"{given_state}")
         return "state has been set" # Same for these
 
-    def Set_Tool_Command(self,Tool_Name,command):
-        self.redis_client.set(f"{Tool_Name}",f"{command}")
-        return "Commands have been loaded into the cache for quick use!" # same this will be changed
-
-
+    def Set_Tool_Object(self,Tool_Name,object):
+        self.redis_client.set(f"{Tool_Name}",json.dumps(object))
+        return f"{Tool_Name} object stored."
+    
+    def Get_Tool_Object(self,Tool_Name):
+        return self.redis_client.get(f"{Tool_Name}")
+    
+    
     def Verfiy_Connection(self):
         return self.redis_client.ping()
     
