@@ -1,0 +1,33 @@
+[
+{
+    "Description" : "This is for Naabu without nmap",
+    "ip" : "",
+    "timestamp" : "",
+    "port" : "",
+    "protocol" : "",
+    "tls" : ""
+},
+{
+    "Description" : "This is for Naabu with NMAP",
+    "ip": "",
+    "timestamp" : "",
+    "port" : "",
+    "protocol" : "",
+    "tls" : false,
+    "extra_info" : "",
+    "method" : "",
+    "name" : "",
+    "os_type" : "",
+    "product" : "",
+    "version" : ""
+},
+{
+    "Description": "This is for subFinder",
+    "host" : "",
+    "input" : "",
+    "source" : []
+},
+{
+    "Description" : "This is amass has no json output just outputs list of subdomains it found!"
+}
+]
